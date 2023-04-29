@@ -1,0 +1,7 @@
+CREATE TABLE diary (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    content TEXT,
+    category TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);

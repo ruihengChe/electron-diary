@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>桌面日记</title>
+</head>
+
+<body>
+    <div>
+        <label for="diary-title" class="diary-label">日记标题：</label>
+        <input type="text" id="diary-title" name="diary-title" class="diary-input" placeholder="请输入日记标题">
+        <label for="diary-date" class="diary-label">日期：</label>
+        <input type="date" id="diary-date" name="diary-date" class="diary-input" value="2021-01-01">
+        <textarea id="diary" rows="20" cols="80"></textarea>
+    </div>
+    <div>
+        <button id="save-button">Save Diary(保存日记)</button>
+        <button id="load-button">Load Diary(加载日记)</button>
+    </div>
+
+    <script>
+        const diaryInput = document.getElementById('diary');
+        const saveButton = document.getElementById('save-button');
+        const loadButton = document.getElementById('load-button');
+
+        saveButton.addEventListener('click', () => {
+            const diaryText = diaryInput.value;
+            console.log('我保存了日记index.html')
+            window.electron.saveDiary(diaryText);
+        });
+
+        loadButton.addEventListener('click', () => {
+            console.log('我加载了日记index.html')
+            window.electron.loadDiary();
+        });
+
+        window.electron.onSaved(() => {
+            alert('Diary saved successfully!');
+        });
+
+        window.electron.onLoaded((event, results) => {
+            let diaryText = '';
+            results.forEach(result => {
+                diaryText += `ID: ${result.id}, Content: ${result.content}, Date: ${result.date}<br>`;
+            });
+            console.log('diaryText', diaryText);
+            diaryInput.value = diaryText
+        });
+
+    </script>
+</body>
+
+</html>
